@@ -1,23 +1,62 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import Eitbutton from './component/Eitbutton';
 import './App.css';
 
 function App() {
+  const [getdata, setGetData] = useState();
+  const [array, setArray] = useState([]);
+
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!getdata) {
+      alert("Task to be added should not be empty!")
+    } else {
+      const data = getdata;
+
+      setArray((a) => [data, ...a]);
+
+      setGetData("")
+
+    }
+
+
+  }
+
+  const handleEdit = () => {
+    
+  }
+
+  const deleteButton = (e) => {
+   
+    console.log(e.target.value)
+    const List = [...array];
+    List.splice(e.target.value, 1);
+    setArray(List);
+    console.warn(List)
+  }
+ 
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div>
+        <input onChange={(e) => setGetData(e.target.value)} value={getdata} />
+        <button onClick={handleSubmit}>Add Me</button>
+      </div>
+
+
+      <div>
+
+        {array.map((value, index) =>
+          <div>{value}  {index}
+            <br />
+            <button onClick={handleEdit} value={value}>Edit</button> <br />
+            <button onClick={deleteButton} value={index}>Delete{index}</button>
+          </div>
+        )}
+
+      </div>
+
     </div>
   );
 }
